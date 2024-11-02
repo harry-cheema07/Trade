@@ -1,5 +1,9 @@
 import yfinance as yf
 
-msft = yf.Ticker("MSFT")
 
-print(msft.info)
+
+def getData(ticker):
+    tickInfo = yf.Ticker(ticker)
+    hist = tickInfo.history(period="1mo")
+    return hist
+

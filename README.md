@@ -15,6 +15,6 @@ c. SMA
 
 Using gradient descent of MSE (Mean Squared Error) on provided weights, I will try to minimize the error between predicted and actual value.
 
-![first Image](images/1.JPG)
-![Second Image](images/2.JPG)
-![Third Image](images/3.JPG)
+![first Image](Maths/1.JPG)
+![Second Image](Maths/2.JPG)
+![Third Image](Maths/3.JPG)

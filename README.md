@@ -19,3 +19,8 @@ Using gradient descent of MSE (Mean Squared Error) on provided weights, I will t
 ![first Image](Maths/1.JPG)
 ![Second Image](Maths/2.JPG)
 ![Third Image](Maths/3.JPG)
+
+
+###Result of V1
+
+![Fourth Image](Results/V1/V1.png)

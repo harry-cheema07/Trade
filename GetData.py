@@ -11,6 +11,10 @@ def getData(ticker):
     print(hist)
     return hist
 
+def getClosePrice(ticker,start_date,end_date):
+    getInfo = yf.download(ticker,start_date,end_date,session=session)
+    return getInfo["Close"]
+
 def getSMA(ticker,movingAverage:int,start_date,end_date):
     getInfo = yf.download(ticker,start_date,end_date,session=session)
     getInfo["SMA"] = getInfo["Close"].rolling(window=movingAverage).mean()

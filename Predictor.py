@@ -9,7 +9,8 @@ startDate='2023-01-01'
 endDate='2024-11-01'
 ticker='AAPL'
 
-
+DateValue=gd.getSMA(ticker,SMAValue,startDate,endDate)[SMAValue-1:]
+DateValue = DateValue.index
 
 SMA=gd.getSMA(ticker,SMAValue,startDate,endDate)
 RSI=gd.getRSI(ticker,startDate,endDate,14)
@@ -114,8 +115,9 @@ print("Final Mean Squared Error:", final_mse)
 
 # Optional: Plot Actual vs Predicted Price to visualize model performance
 plt.figure(figsize=(12, 6))
-plt.plot(ActualPrice, label='Actual Price')
-plt.plot(final_predicted_price, label='Predicted Price', linestyle='--')
+plt.plot(DateValue,ActualPrice, label='Actual Price')
+plt.plot(DateValue,final_predicted_price,label='Predicted Price', linestyle='--')
+plt.title('Price Chart action '+ticker)
 plt.xlabel("Time")
 plt.ylabel("Stock Price")
 plt.legend()

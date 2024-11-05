@@ -7,7 +7,8 @@ News Data: I need to gather news about particular stock. Need to check what API 
 Fundamental Data: This includes earning and Quarterly reports. This information can be gathered using yfinance API as well.
 
 ## Choice of model
-v1 Start with Linear regression model and see how it works
+### Version 1
+Start with Linear regression model and see how it works
 The weights should be following:
 a. RSI
 b. Volume

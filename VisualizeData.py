@@ -28,6 +28,10 @@ ax1.set_title('Price Chart of '+ticker)
 ax1.set_ylabel('Close Price', color='blue')
 ax1.tick_params(axis='y', labelcolor='blue')
 
+for i, txt in enumerate(y1):
+    ax1.text(x1[i], y1[i], f"{y1[i]:.2f}", ha='center', va='bottom', color='blue', fontsize=10)
+
+
 
 # Create a second y-axis for the bar chart
 ax2 = ax1.twinx()  # instantiate a second axes that shares the same x-axis

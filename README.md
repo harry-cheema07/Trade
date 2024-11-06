@@ -23,4 +23,4 @@ Using gradient descent of MSE (Mean Squared Error) on provided weights, I will t
 
 ###Result of V1
 
-![Fourth Image](Results/V1/V1.png)
+![Fourth Image](Results/V1/V1_new.png)

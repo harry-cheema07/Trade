@@ -21,6 +21,16 @@ Using gradient descent of MSE (Mean Squared Error) on provided weights, I will t
 ![Third Image](Maths/3.JPG)
 
 
-###Result of V1
+#### Result of V1
 
 ![Fourth Image](Results/V1/V1_new.png)
+
+
+#### Generating the future
+To generate the future data, we have to use time series analysis to analyze what effect would previous lags have on future data.
+- Plot the PACF chart of each feature
+PACF of SMA is not giving much insights
+![Fifth Image](Results/PACF/PACF_of_SMA.png)
+
+PACF of Close Price: First the Close price has been stationarized and then PACF has been ploted for that data
+![Sixth Image](Results/PACF/PACF_of_ClosePrice.png)

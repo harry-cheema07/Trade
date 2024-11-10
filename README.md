@@ -26,11 +26,21 @@ Using gradient descent of MSE (Mean Squared Error) on provided weights, I will t
 ![Fourth Image](Results/V1/V1_new.png)
 
 
-#### Generating the future
+#### Generating the future data
 To generate the future data, we have to use time series analysis to analyze what effect would previous lags have on future data.
 - Plot the PACF chart of each feature
-PACF of SMA is not giving much insights
-![Fifth Image](Results/PACF/PACF_of_SMA.png)
 
-PACF of Close Price: First the Close price has been stationarized and then PACF has been ploted for that data
-![Sixth Image](Results/PACF/PACF_of_ClosePrice.png)
+Starting with Close Price first: 
+The data is not stationary
+![Fifth Image](Results/PACF/non_stationary_ClosePrice.png)
+
+Using Differencing method for making the data stationary:
+![Sixth Image](Results/PACF/stationarity_ClosePrice.png)
+
+PACF CHART
+![PACF Image](Results/PACF/PACF_of_ClosePrice.png)
+
+ACF CHART
+![ACF Image](Results/PACF/ACF_of_ClosePrice.png)
+
+None of the lag shows any strong relationship between current and previous value.

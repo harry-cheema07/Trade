@@ -3,6 +3,8 @@ import matplotlib.pyplot as plt
 import GetData as gd
 import numpy as np
 import statsmodels.api as sm
+from statsmodels.graphics.tsaplots import plot_pacf,plot_acf
+from statsmodels.tsa.arima.model import ARIMA
 
 SMAValue=50
 startDate='2023-01-01'
@@ -61,27 +63,37 @@ DateValue = DateValue.index
 
 
 #PACF in Close Price
+
+fig, ax =plt.subplots(figsize=(10, 6))
+##Checking the stationarity of the Close Price
+#plt.plot(ActualPrice,color='blue')
+
+
+#Using Differencing method making the data stationary
 first_diffs = ActualPrice.values[1:] - ActualPrice.values[:-1]
 first_diffs = np.concatenate([first_diffs.flatten(), [0]])
 ActualPrice['diff'] = first_diffs
-
-
-pacf_values = sm.tsa.pacf(ActualPrice['diff'], nlags=206)
+print(len(ActualPrice.index))
+print(len(ActualPrice['diff']))
+#Plotting the stationary data
+#plt.plot(ActualPrice.index,ActualPrice['diff'],color='blue')
+print(ActualPrice['diff'])
+#Calculating PACF value
+pacf_values=sm.tsa.adfuller(ActualPrice['diff'])
 print(pacf_values)
-N = 206
-conf_interval = 1.96 / np.sqrt(N)
+#PACF PLOT
+#plot_pacf(ActualPrice['diff'],ax=ax,lags=100)
 
 
-#Plotting PACF chart
-plt.stem(range(len(pacf_values)),pacf_values)
-#plt.bar(range(len(pacf_values)),pacf_values, width=0.4)
-plt.xlabel('Lags')
-plt.ylabel('PACF')
-plt.title('Partial Autocorrelation Function')
-
-#Plotting confidence lines
-
-plt.axhline(y=conf_interval, color='red', linestyle='--', linewidth=1)
-plt.axhline(y=-conf_interval, color='red', linestyle='--', linewidth=1)
-
+#ACF PLOT
+plot_acf(ActualPrice['diff'],ax=ax,lags=100)
 plt.show()
+
+
+# p,d,q=0,0,0
+# # Fit an ARIMA model
+# model = ARIMA(ActualPrice['diff'], order=(p,d,q))  # Replace (p,d,q) with appropriate values
+# model_fit = model.fit()
+
+# # Summary of the model
+# print(model_fit.summary())

@@ -21,18 +21,18 @@ RSI=gd.getRSI(ticker,startDate,endDate,14)
 V=gd.getVolume(ticker,startDate,endDate)
 ActualPrice=gd.getClosePrice(ticker,startDate,endDate)
 
-
 #Cleaning
 SMA = SMA[SMAValue-1:]
 
-RSI = RSI.values[SMAValue-1:]
+RSI = RSI[SMAValue-1:]
 
-V = V.values.flatten()[SMAValue-1:]
+V = V[SMAValue-1:]
 
 ActualPrice = ActualPrice[SMAValue-1:]
 
 DateValue=gd.getSMA(ticker,SMAValue,startDate,endDate)[SMAValue-1:]
 DateValue = DateValue.index
+
 
 ### PACF on SMA
 
@@ -68,41 +68,27 @@ DateValue = DateValue.index
 #PACF in Close Price
 
 fig, ax =plt.subplots(figsize=(10, 6))
-##Checking the stationarity of the Close Price
-#plt.plot(ActualPrice,color='blue')
 
 
-#Using Differencing method making the data stationary
-first_diffs = ActualPrice.values[1:] - ActualPrice.values[:-1]
-first_diffs = np.concatenate([first_diffs.flatten(), [0]])
-ActualPrice['diff'] = first_diffs
 
-#Plotting the stationary data
-#plt.plot(ActualPrice.index,ActualPrice['diff'],color='blue')
+##Checking the stationarity of the Volume
 
-#Calculating PACF value
-#pacf_values=sm.tsa.adfuller(ActualPrice['diff'])
-
-#PACF PLOT
-#plot_pacf(ActualPrice['diff'],ax=ax,lags=100)
+pacf_values=sm.tsa.adfuller(V)
 
 
-#ACF PLOT
-#plot_acf(ActualPrice['diff'],ax=ax,lags=100)
-#plt.show()
+print(pacf_values)
 
 
-#Calculate the right order
-#stepwise_fit=auto_arima(ActualPrice['diff'],trace=True,suppress_warnings=True)
+stepwise_fit=auto_arima(V,trace=True,suppress_warnings=True)
 
-#stepwise_fit.summary()
+stepwise_fit.summary()
 
-# Best model:  ARIMA(2,0,2)(0,0,0)[0] intercept
 
-#Create Training and Testing data set
 
-training = ActualPrice['diff'].iloc[:-30]
-testing = ActualPrice['diff'].iloc[-30:]
+
+
+training = V.iloc[:-30]
+testing = V.iloc[-30:]
 
 print(training)
 
@@ -110,7 +96,7 @@ print(testing)
 
 
 
-p,d,q=2,0,2
+p,d,q=1,0,0
 # Fit an ARIMA model
 model = ARIMA(training, order=(p,d,q))  # Replace (p,d,q) with appropriate values
 model_fit = model.fit()
@@ -125,12 +111,8 @@ start = len(training)
 end = len(training) + len(testing) - 1
 pred = model_fit.predict(start=start, end=end, type = 'levels')
 
-
-#Reversing Difference
-predicted_values = pred.cumsum() + ActualPrice[ticker][1:].iloc[:-30][-1]
-
-Result = pd.DataFrame(data = ActualPrice[1:][-30:][ticker].values,index = DateValue.values[1:][-30:], columns=['Actual'])
-Result['Predicted']=predicted_values.values
+Result = pd.DataFrame(data = V[1:][-30:][ticker].values,index = DateValue.values[1:][-30:], columns=['Actual'])
+Result['Predicted']=pred.values
 print(Result)
 
 rmse = sqrt(mean_squared_error(Result['Predicted'],Result['Actual']))

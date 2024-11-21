@@ -79,8 +79,18 @@ pacf_values=sm.tsa.adfuller(V)
 print(pacf_values)
 
 
-stepwise_fit=auto_arima(V,trace=True,suppress_warnings=True)
+#stepwise_fit=auto_arima(V,trace=True,suppress_warnings=True)
 
+stepwise_fit=auto_arima(   V,  # Replace `V` with your Volume data variable
+    seasonal=True,
+    m=5,
+    trace=True,
+    suppress_warnings=True,
+    stepwise=True,
+    error_action='ignore',
+    max_p=3, max_q=3, max_d=1,
+    max_P=3, max_Q=3, max_D=1  # Seasonal parameters for SARIMA)
+)
 stepwise_fit.summary()
 
 
@@ -90,13 +100,9 @@ stepwise_fit.summary()
 training = V.iloc[:-30]
 testing = V.iloc[-30:]
 
-print(training)
-
-print(testing)
 
 
-
-p,d,q=1,0,0
+p,d,q=4,0,2
 # Fit an ARIMA model
 model = ARIMA(training, order=(p,d,q))  # Replace (p,d,q) with appropriate values
 model_fit = model.fit()

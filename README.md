@@ -16,9 +16,9 @@ c. SMA
 
 Using gradient descent of MSE (Mean Squared Error) on provided weights, I will try to minimize the error between predicted and actual value.
 
-![first Image](Maths/1.JPG)
-![Second Image](Maths/2.JPG)
-![Third Image](Maths/3.JPG)
+![first Image](Maths/Current_Value_Prediction/Linear_Regression_Model/1.JPG)
+![Second Image](Maths/Current_Value_Prediction/Linear_Regression_Model/2.JPG)
+![Third Image](Maths/Current_Value_Prediction/Linear_Regression_Model/3.JPG)
 
 
 #### Result of V1
@@ -27,6 +27,8 @@ Using gradient descent of MSE (Mean Squared Error) on provided weights, I will t
 
 
 #### Generating the future data
+### Trying with ARIMA
+
 To generate the future data, we have to use time series analysis to analyze what effect would previous lags have on future data.
 - Plot the PACF chart of each feature
 
@@ -44,3 +46,15 @@ ACF CHART
 ![ACF Image](Results/PACF/ACF_of_ClosePrice.png)
 
 None of the lag shows any strong relationship between current and previous value.
+
+#### Conclusion
+ARIMA is not good enough to predict future value as it is univariate means it does not take into consideration the effect of other features.. So we need something in which we can get how multiple features can affect the resultant value. So we will try VAR (Vector Auto Regression) next.
+
+
+### Trying with VAR - Vector Auto Regression
+
+Main Difference between VAR and Linear Regression is following
+![Difference Image](Resources/Difference_VAR_LR.png)
+![Difference Image](Resources/Difference_VAR_LR_2.png)
+
+

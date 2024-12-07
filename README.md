@@ -56,5 +56,5 @@ ARIMA is not good enough to predict future value as it is univariate means it do
 Main Difference between VAR and Linear Regression is following
 ![Difference Image](Resources/Difference_VAR_LR.png)
 ![Difference Image](Resources/Difference_VAR_LR_2.png)
-[VAR MODEL](https://onedrive.live.com/view.aspx?resid=34F345C4C190C44C%21260377&id=documents&wd=target%28TimeSeries.one%7CE31946B6-70CD-4672-B954-6576264862C3%2F%29
-onenote:https://d.docs.live.net/34f345c4c190c44c/Documents/Models%20Testing/TimeSeries.one#section-id={E31946B6-70CD-4672-B954-6576264862C3}&end)
+[VAR MODEL](https://onedrive.live.com/view.aspx?resid=34F345C4C190C44C%21260377&id=documents&wd=target%28TimeSeries.one%7CE31946B6-70CD-4672-B954-6576264862C3%2F%29)
+

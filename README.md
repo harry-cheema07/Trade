@@ -58,3 +58,8 @@ Main Difference between VAR and Linear Regression is following
 ![Difference Image](Resources/Difference_VAR_LR_2.png)
 [VAR MODEL](https://onedrive.live.com/view.aspx?resid=34F345C4C190C44C%21260377&id=documents&wd=target%28TimeSeries.one%7CE31946B6-70CD-4672-B954-6576264862C3%2F%29)
 
+Data has been stationarized and PACF plot has been plotted to calculate lag values
+
+
+After doing the prediction, predicted value is coming out to be $222.611 whereas on Nov 1st the Close price was $222.91
+![Predicted Price](Resource/Predicted_ActualPrice_VAR.png)

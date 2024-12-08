@@ -6,7 +6,8 @@ import matplotlib.pyplot as plt
 #Used to make the data stationary
 def stationary_differencing(feature):
     first_diffs = feature.values[1:] - feature.values[:-1]
-    first_diffs = np.concatenate([first_diffs.flatten(), [0]])
+    #first_diffs = np.concatenate([first_diffs.flatten(), [0]])
+    first_diffs = np.concatenate([[first_diffs[0]], first_diffs])
     return first_diffs
 
 #This method can be used to check the stationarity in dataset

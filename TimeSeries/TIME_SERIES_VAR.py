@@ -1,3 +1,8 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/..")
+
+import Utils as util
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import GetData as gd
@@ -5,7 +10,6 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler
 from statsmodels.graphics.tsaplots import plot_pacf,plot_acf
 from statsmodels.tsa.api import VAR
-import Utils as util
 import datetime
 import statsmodels.api as sm
 

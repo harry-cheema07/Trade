@@ -1,6 +1,6 @@
 import pandas as pd
 import matplotlib.pyplot as plt
-import GetData as gd
+import TimeSeries.GetData as gd
 import numpy as np
 from sklearn.preprocessing import StandardScaler
 

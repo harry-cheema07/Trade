@@ -1,3 +1,6 @@
+import sys, os
+sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/..")
+
 import pandas as pd
 import matplotlib.pyplot as plt
 import GetData as gd
@@ -21,18 +24,18 @@ RSI=gd.getRSI(ticker,startDate,endDate,14)
 V=gd.getVolume(ticker,startDate,endDate)
 ActualPrice=gd.getClosePrice(ticker,startDate,endDate)
 
+
 #Cleaning
 SMA = SMA[SMAValue-1:]
 
-RSI = RSI[SMAValue-1:]
+RSI = RSI.values[SMAValue-1:]
 
-V = V[SMAValue-1:]
+V = V.values.flatten()[SMAValue-1:]
 
 ActualPrice = ActualPrice[SMAValue-1:]
 
 DateValue=gd.getSMA(ticker,SMAValue,startDate,endDate)[SMAValue-1:]
 DateValue = DateValue.index
-
 
 ### PACF on SMA
 
@@ -68,41 +71,49 @@ DateValue = DateValue.index
 #PACF in Close Price
 
 fig, ax =plt.subplots(figsize=(10, 6))
+##Checking the stationarity of the Close Price
+#plt.plot(ActualPrice,color='blue')
+
+
+#Using Differencing method making the data stationary
+first_diffs = ActualPrice.values[1:] - ActualPrice.values[:-1]
+first_diffs = np.concatenate([first_diffs.flatten(), [0]])
+ActualPrice['diff'] = first_diffs
+
+#Plotting the stationary data
+#plt.plot(ActualPrice.index,ActualPrice['diff'],color='blue')
+
+#Calculating PACF value
+#pacf_values=sm.tsa.adfuller(ActualPrice['diff'])
+
+#PACF PLOT
+#plot_pacf(ActualPrice['diff'],ax=ax,lags=100)
+
+
+#ACF PLOT
+#plot_acf(ActualPrice['diff'],ax=ax,lags=100)
+#plt.show()
+
+
+#Calculate the right order
+#stepwise_fit=auto_arima(ActualPrice['diff'],trace=True,suppress_warnings=True)
+
+#stepwise_fit.summary()
+
+# Best model:  ARIMA(2,0,2)(0,0,0)[0] intercept
+
+#Create Training and Testing data set
+
+training = ActualPrice['diff'].iloc[:-30]
+testing = ActualPrice['diff'].iloc[-30:]
+
+print(training)
+
+print(testing)
 
 
 
-##Checking the stationarity of the Volume
-
-pacf_values=sm.tsa.adfuller(V)
-
-
-print(pacf_values)
-
-
-#stepwise_fit=auto_arima(V,trace=True,suppress_warnings=True)
-
-stepwise_fit=auto_arima(   V,  # Replace `V` with your Volume data variable
-    seasonal=True,
-    m=5,
-    trace=True,
-    suppress_warnings=True,
-    stepwise=True,
-    error_action='ignore',
-    max_p=3, max_q=3, max_d=1,
-    max_P=3, max_Q=3, max_D=1  # Seasonal parameters for SARIMA)
-)
-stepwise_fit.summary()
-
-
-
-
-
-training = V.iloc[:-30]
-testing = V.iloc[-30:]
-
-
-
-p,d,q=4,0,2
+p,d,q=2,0,2
 # Fit an ARIMA model
 model = ARIMA(training, order=(p,d,q))  # Replace (p,d,q) with appropriate values
 model_fit = model.fit()
@@ -117,8 +128,12 @@ start = len(training)
 end = len(training) + len(testing) - 1
 pred = model_fit.predict(start=start, end=end, type = 'levels')
 
-Result = pd.DataFrame(data = V[1:][-30:][ticker].values,index = DateValue.values[1:][-30:], columns=['Actual'])
-Result['Predicted']=pred.values
+
+#Reversing Difference
+predicted_values = pred.cumsum() + ActualPrice[ticker][1:].iloc[:-30][-1]
+
+Result = pd.DataFrame(data = ActualPrice[1:][-30:][ticker].values,index = DateValue.values[1:][-30:], columns=['Actual'])
+Result['Predicted']=predicted_values.values
 print(Result)
 
 rmse = sqrt(mean_squared_error(Result['Predicted'],Result['Actual']))

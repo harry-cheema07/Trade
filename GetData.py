@@ -41,6 +41,7 @@ def getRSI(ticker,start_date,end_date,window):
 
     return getInfo["RSI"]
 
-#print(getRSI("AAPL","2023-01-01","2024-10-31",14).values)
-#print(getVolume("AAPL","2023-01-01","2024-10-31").values)
-#print(getSMA("AAPL",50,"2023-01-01","2024-10-31").values)
+def getFinancial(ticker):
+    tickInfo = yf.Ticker(ticker,session=session)
+    financial_data = ticker.financials
+    return financial_data

@@ -5,7 +5,16 @@ import GetData as gd
 import FinancialModellingPrep as sector
 
 
+stocksInSegments = {}
 
-stockList = sector.fetchStocksUnderSegment("Technology")
+segments = sector.fetchAllSegments()
+segments = segments[:2]
 
-print(stockList)
+#for now I am reducing the number of sectors for API's daily limit
+
+#Loading the stocks in their respective segments
+for i in segments:
+    stocksInSegments[i] = sector.fetchStocksUnderSegment(i)
+
+#Getting financial data for all stocks and storing that in a df
+print(stocksInSegments)

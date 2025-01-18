@@ -1,6 +1,6 @@
 import yfinance as yf
 import requests_cache
-
+import pandas as pd
 session = requests_cache.CachedSession('yfinance.cache')
 session.headers['User-agent'] = 'my-program/1.0'
 
@@ -41,7 +41,34 @@ def getRSI(ticker,start_date,end_date,window):
 
     return getInfo["RSI"]
 
+def getBalanceSheet(ticker):
+    tickInfo = yf.Ticker(ticker,session=session)
+    financial_data = tickInfo.balance_sheet
+    return financial_data
+
 def getFinancial(ticker):
     tickInfo = yf.Ticker(ticker,session=session)
-    financial_data = ticker.financials
+    financial_data = tickInfo.financials
     return financial_data
+
+def IncomeDebtData(ticker):
+    netIncomeData = getFinancial(ticker).loc['Net Income']
+    netIncomeData = netIncomeData.reset_index()
+    netIncomeData.columns = ['date','NetIncome']
+    print(netIncomeData)
+    latestDateNetIncome = netIncomeData.index.max()
+    netIncome =  netIncomeData.loc[latestDateNetIncome,'NetIncome']
+    
+    print(getBalanceSheet(ticker))
+    netDebtData = getBalanceSheet(ticker).loc['Net Debt']
+    netDebtData = netDebtData.reset_index()
+    netDebtData.columns = ['date','NetDebt']
+    latestDateNetDebt = netDebtData.index.max()
+    netDebt =  netDebtData.loc[latestDateNetDebt,'NetDebt']
+
+    data = [(latestDateNetIncome,netIncome,latestDateNetDebt,netDebt)]
+
+    return pd.DataFrame(data,columns=['Net_Income_Date','Net_Income','Net_Debt_Date','Net_Debt'])
+
+
+

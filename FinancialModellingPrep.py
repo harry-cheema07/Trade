@@ -37,7 +37,7 @@ def fetchStocksUnderSegment(segment):
     url = f"https://financialmodelingprep.com/api/v3/stock-screener"
     params = {
         "sector": segment,  # Specify the sector
-        "limit": 10,           # Number of results
+        "limit": 20,           # Number of results
         "apikey": API_KEY        # Your API key
     }
 
@@ -49,7 +49,33 @@ def fetchStocksUnderSegment(segment):
         data = response.json()
         # Print or process the data
         for stock in data:
-            stocks.append(stock['symbol'])
+            if stock['exchangeShortName'] == 'NYSE' or stock['exchangeShortName'] == 'NASDAQ':
+                stocks.append(stock['symbol'])
     else:
         print(f"Failed to fetch data: {response.status_code} - {response.text}")
     return stocks
+
+
+
+def fetchFinancial(stock):
+    data=''
+    # API Endpoint for Stock Screener
+    url = f"https://financialmodelingprep.com/api/v3/income-statement/"+stock
+    params = {
+        "apikey": API_KEY,        # Your API key
+        "period": 'annual'
+    }
+
+    # Make the API request
+    response = requests.get(url, params=params)
+
+    # Check if the request was successful
+    if response.status_code == 200:
+        data = response.json()
+        # Print or process the data
+    else:
+        print(f"Failed to fetch data: {response.status_code} - {response.text}")
+    if data != '':
+        return data
+    else:
+        return None

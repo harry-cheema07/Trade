@@ -16,7 +16,7 @@ segments = sector.fetchAllSegments()
 
 
 #for now I am reducing the number of sectors for API's daily limit
-segments = segments
+#segments = segments[:2]
 
 
 #Loading the stocks in their respective segments

@@ -72,3 +72,23 @@ def IncomeDebtData(ticker):
 
 
 
+def getAllStocks():
+    ticker_symbols = yf.Tickers('all')
+    return ticker_symbols
+
+
+def getPercentageChange(ticker):
+    stock = yf.Ticker(ticker)
+    history = stock.history(period='5d')
+    if history.empty == False:
+        previous_close = history['Close'].iloc[-2] 
+        current_close = history['Close'].iloc[-1] 
+        percentage_change = ((current_close - previous_close) / previous_close) * 100
+        return percentage_change
+    
+
+def getPreviousVolume(ticker):
+    stock = yf.Ticker(ticker)
+    history = stock.history(period='5d')
+    previousDayVolume=history['Volume'].iloc[-1]  
+    return previousDayVolume

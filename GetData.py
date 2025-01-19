@@ -94,5 +94,8 @@ def getPreviousVolume(ticker):
 def getAllStocksHistoricalData(tickers):
     all_stocks = yf.Tickers(" ".join(tickers))
     data = all_stocks.history(period="5d")
-    
     return data
+
+def getOutlierNews(tickers):
+    all_stocks = yf.Tickers(" ".join(tickers))
+    return all_stocks.news()

@@ -20,11 +20,14 @@ stockData = sp500[['Symbol','GICS Sector']].rename(columns={'Symbol':'Ticker','G
 AllStockData = gd.getAllStocksHistoricalData(stockData['Ticker'])
 
 for Index,row in stockData.iterrows():
-    previous_close = AllStockData['Close',row.Ticker].iloc[-2] 
-    current_close = AllStockData['Close',row.Ticker].iloc[-1]
-    percentage_change = ((current_close - previous_close) / previous_close) * 100
-    
-    previousDayVolume=AllStockData['Volume',row.Ticker].iloc[-1]
+    try:
+        previous_close = AllStockData['Close',row.Ticker].iloc[-2] 
+        current_close = AllStockData['Close',row.Ticker].iloc[-1]
+        percentage_change = ((current_close - previous_close) / previous_close) * 100
+        
+        previousDayVolume=AllStockData['Volume',row.Ticker].iloc[-1]
+    except:
+        print('error')
 
     stockData.at[Index, 'Change'] = percentage_change
     stockData.at[Index, 'Volume'] = previousDayVolume
@@ -77,3 +80,15 @@ outliers = stockData.query('Outliers == True')
 fig = px.scatter(outliers, x='Volume', y='Change', text='Ticker',color='Sector', title='Outliers')
 fig.update_traces(marker=dict(size=12), selector=dict(mode='markers+text'))
 fig.show()
+
+
+
+#Collecting News related to Outliers
+news = gd.getOutlierNews(outliers['Ticker'])
+
+for key, value in news.items(): 
+    print('Stock : '+ key)
+    for dict in value:
+        for key,value in dict.items():
+            if key == 'link':
+                print('News : '+value)

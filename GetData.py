@@ -1,3 +1,4 @@
+import time
 import yfinance as yf
 import requests_cache
 import pandas as pd
@@ -71,13 +72,8 @@ def IncomeDebtData(ticker):
     return pd.DataFrame(data,columns=['Net_Income_Date','Net_Income','Net_Debt_Date','Net_Debt'])
 
 
-
-def getAllStocks():
-    ticker_symbols = yf.Tickers('all')
-    return ticker_symbols
-
-
 def getPercentageChange(ticker):
+    time.sleep(0.2)
     stock = yf.Ticker(ticker)
     history = stock.history(period='5d')
     if history.empty == False:
@@ -88,7 +84,15 @@ def getPercentageChange(ticker):
     
 
 def getPreviousVolume(ticker):
+    time.sleep(0.2)
     stock = yf.Ticker(ticker)
     history = stock.history(period='5d')
     previousDayVolume=history['Volume'].iloc[-1]  
     return previousDayVolume
+
+
+def getAllStocksHistoricalData(tickers):
+    all_stocks = yf.Tickers(" ".join(tickers))
+    data = all_stocks.history(period="5d")
+    
+    return data

@@ -15,8 +15,9 @@ sp500 = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies'
 
 
 stockData = sp500[['Symbol','GICS Sector']].rename(columns={'Symbol':'Ticker','GICS Sector':'Sector'})
-stockData = stockData.head(100)
+#stockData = stockData.head(100)
 for Index,Row in stockData.iterrows():
+    print(Index)
     if gd.getPercentageChange(Row.Ticker) != None:
         change=gd.getPercentageChange(Row.Ticker)
         volume=gd.getPreviousVolume(Row.Ticker)

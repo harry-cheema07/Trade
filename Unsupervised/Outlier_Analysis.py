@@ -4,12 +4,8 @@ sys.path.append(os.path.dirname(os.path.abspath(__file__))+"/..")
 import plotly.express as px
 import pandas as pd
 import GetData as gd
-import FinancialModellingPrep as sector
 
-import numpy as np
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
-from sklearn.preprocessing import StandardScaler
+
 
 sp500 = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')[0]
 
@@ -91,4 +87,7 @@ for key, value in news.items():
     for dict in value:
         for key,value in dict.items():
             if key == 'link':
-                print('News : '+value)
+                for i in gd.getNewsDetails(value):
+                    print(i.get_text())
+                #Breaking after first news webpage
+                break

@@ -63,3 +63,9 @@ Data has been stationarized and PACF plot has been plotted to calculate lag valu
 
 After doing the prediction, predicted value is coming out to be $222.611 whereas on Nov 1st the Close price was $222.91
 ![Predicted Price](Resources/Predicted_ActualPrice_VAR.png)
+
+
+
+####Getting Outliers for each segment
+
+Unsupervised > Outlier_Analysis.py calculates the outliers of each sector

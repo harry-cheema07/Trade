@@ -2,6 +2,10 @@ import time
 import yfinance as yf
 import requests_cache
 import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+
+
 session = requests_cache.CachedSession('yfinance.cache')
 session.headers['User-agent'] = 'my-program/1.0'
 
@@ -99,3 +103,13 @@ def getAllStocksHistoricalData(tickers):
 def getOutlierNews(tickers):
     all_stocks = yf.Tickers(" ".join(tickers))
     return all_stocks.news()
+
+def getNewsDetails(url):
+    response=requests.get(url)
+    soup = BeautifulSoup(response.content, 'html.parser')
+    headline = soup.findAll('div', class_='cover-title')
+    article_content = soup.findAll('p', class_='yf-1pe5jgt')
+    #combining headline and article content together
+    fulldataset=headline + article_content
+    return fulldataset
+
